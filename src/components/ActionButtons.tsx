@@ -27,11 +27,6 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ cardRef, userName,
       setIsExporting(true);
       setSuccessMessage(null);
 
-      // Ensure all web fonts (Outfit, Plus Jakarta Sans) are fully loaded & rendered before capturing
-      if (document.fonts && document.fonts.ready) {
-        await document.fonts.ready;
-      }
-
       // Render image at 3x scale for crisp high definition social share
       const dataUrl = await toPng(cardRef.current, {
         cacheBust: true,
@@ -62,10 +57,6 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ cardRef, userName,
     try {
       setIsExporting(true);
       setSuccessMessage(null);
-
-      if (document.fonts && document.fonts.ready) {
-        await document.fonts.ready;
-      }
 
       const dataUrl = await toPng(cardRef.current, {
         cacheBust: true,
@@ -106,7 +97,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ cardRef, userName,
   };
 
   return (
-    <div style={{ width: '100%', maxWidth: '440px', marginTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.9rem', zIndex: 10 }}>
+    <div style={{ width: '100%', maxWidth: '390px', marginTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.9rem', zIndex: 10 }}>
       {/* Primary Action Row */}
       <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
         <button
