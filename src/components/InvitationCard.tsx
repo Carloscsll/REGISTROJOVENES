@@ -13,12 +13,10 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
     const span = nameSpanRef.current;
     if (!span) return;
 
-    // Reset to max size first
-    const MAX_SIZE = 22; // px
-    const MIN_SIZE = 9;  // px
+    const MAX_SIZE = 19; // px
+    const MIN_SIZE = 8;  // px
     span.style.fontSize = `${MAX_SIZE}px`;
 
-    // Shrink font size until text fits within its parent container
     let size = MAX_SIZE;
     while (span.scrollWidth > span.offsetWidth && size > MIN_SIZE) {
       size -= 0.5;
@@ -34,6 +32,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
       style={{
         background: '#ffffff',
         fontFamily: "'Plus Jakarta Sans', sans-serif",
+        padding: '1.1rem 1.15rem',
       }}
     >
       {/* Background Decorative Matrix & Shapes */}
@@ -41,9 +40,9 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
       <div className="card-top-geometric" />
       <div className="card-bottom-geometric" />
 
-      {/* Decorative top corner accent lines */}
+      {/* Decorative corner accent lines */}
       <svg
-        style={{ position: 'absolute', top: 0, left: 0, width: '90px', height: '90px', pointerEvents: 'none', opacity: 0.18 }}
+        style={{ position: 'absolute', top: 0, left: 0, width: '70px', height: '70px', pointerEvents: 'none', opacity: 0.15 }}
         viewBox="0 0 100 100"
         fill="none"
       >
@@ -52,7 +51,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
         <circle cx="20" cy="20" r="3" fill="#0052CC" />
       </svg>
       <svg
-        style={{ position: 'absolute', bottom: 0, right: 0, width: '90px', height: '90px', pointerEvents: 'none', opacity: 0.18 }}
+        style={{ position: 'absolute', bottom: 0, right: 0, width: '70px', height: '70px', pointerEvents: 'none', opacity: 0.15 }}
         viewBox="0 0 100 100"
         fill="none"
       >
@@ -60,30 +59,28 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
         <line x1="20" y1="100" x2="100" y2="20" stroke="#0052CC" strokeWidth="2" />
       </svg>
 
-      {/* --- HEADER: JÓVENES UNIDOS (WITHOUT LOGO SIMULATION) --- */}
-      <div style={{ textTransform: 'center', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ textAlign: 'center', textTransform: 'uppercase' }}>
-          <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: '1.2rem', color: '#0052CC', letterSpacing: '0.06em', lineHeight: 1 }}>
-            JÓVENES UNIDOS
-          </div>
-          <div style={{ fontSize: '0.625rem', fontWeight: 700, color: '#475569', letterSpacing: '0.14em', marginTop: '3px' }}>
-            "CREER PARA PODER CREAR"
-          </div>
+      {/* --- HEADER: JÓVENES UNIDOS --- */}
+      <div style={{ zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+        <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: '1rem', color: '#0052CC', letterSpacing: '0.06em', lineHeight: 1, textTransform: 'uppercase' }}>
+          JÓVENES UNIDOS
+        </div>
+        <div style={{ fontSize: '0.56rem', fontWeight: 700, color: '#64748b', letterSpacing: '0.12em', marginTop: '2px', textTransform: 'uppercase' }}>
+          "CREER PARA PODER CREAR"
         </div>
 
-        {/* Separator */}
-        <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#09172e', letterSpacing: '0.18em', margin: '10px 0 4px 0', textTransform: 'uppercase' }}>
+        {/* Separator label */}
+        <div style={{ fontSize: '0.6rem', fontWeight: 800, color: '#09172e', letterSpacing: '0.14em', margin: '7px 0 3px 0', textTransform: 'uppercase', textAlign: 'center', width: '100%' }}>
           TE INVITAMOS AL ENCUENTRO JUVENIL
         </div>
       </div>
 
-      {/* --- MAIN TITLE: VITA (CRYSTAL CLEAR HIGH IMPACT BOLD TEXT) --- */}
-      <div style={{ textAlign: 'center', zIndex: 2, margin: '2px 0' }}>
+      {/* --- MAIN TITLE: VITA --- */}
+      <div style={{ textAlign: 'center', zIndex: 2, margin: '0' }}>
         <h1
           style={{
             fontFamily: "'Outfit', sans-serif",
             fontWeight: 900,
-            fontSize: '4.2rem',
+            fontSize: '3.4rem',
             lineHeight: '0.95',
             letterSpacing: '0.08em',
             margin: '0',
@@ -91,42 +88,40 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             textTransform: 'uppercase',
-            filter: 'drop-shadow(0 2px 4px rgba(0, 82, 204, 0.15))'
+            filter: 'drop-shadow(0 1px 3px rgba(0, 82, 204, 0.12))'
           }}
         >
           VITA
         </h1>
 
         {/* Tagline under VITA */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginTop: '4px' }}>
-          <span style={{ height: '14px', width: '2px', background: '#0052CC' }}></span>
-          <span style={{ fontSize: '0.625rem', fontWeight: 800, color: '#0052CC', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px', marginTop: '3px' }}>
+          <span style={{ height: '12px', width: '2px', background: '#0052CC', flexShrink: 0 }}></span>
+          <span style={{ fontSize: '0.56rem', fontWeight: 800, color: '#0052CC', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
             VISIÓN <span style={{ color: '#09172e' }}>INNOVADORA</span> PARA <span style={{ color: '#09172e' }}>TRANSFORMAR Y ACTUAR</span>
           </span>
-          <span style={{ height: '14px', width: '2px', background: '#0052CC' }}></span>
+          <span style={{ height: '12px', width: '2px', background: '#0052CC', flexShrink: 0 }}></span>
         </div>
       </div>
 
       {/* --- PERSONALIZED NAME BANNER --- */}
-      <div style={{ zIndex: 2, margin: '6px 0', textAlign: 'center' }}>
+      <div style={{ zIndex: 2, margin: '6px 0 4px 0', textAlign: 'center' }}>
         <div style={{
           background: 'linear-gradient(135deg, #0052cc 0%, #0066ff 100%)',
           color: '#ffffff',
           borderRadius: '9999px',
-          padding: '8px 20px',
-          boxShadow: '0 8px 18px rgba(0, 82, 204, 0.3)',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          maxWidth: '100%',
-          border: '2px solid rgba(255, 255, 255, 0.4)'
+          padding: '6px 16px',
+          boxShadow: '0 5px 14px rgba(0, 82, 204, 0.28)',
+          display: 'block',
+          width: '100%',
+          border: '2px solid rgba(255, 255, 255, 0.35)'
         }}>
           <span
             ref={nameSpanRef}
             style={{
               fontFamily: "'Outfit', sans-serif",
               fontWeight: 800,
-              fontSize: '22px',
+              fontSize: '19px',
               letterSpacing: '0.04em',
               textTransform: 'uppercase',
               whiteSpace: 'nowrap',
@@ -142,8 +137,8 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
       </div>
 
       {/* Youth phrase */}
-      <div style={{ textTransform: 'none', textAlign: 'center', zIndex: 2, padding: '0 6px' }}>
-        <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#334155', lineHeight: '1.35', fontStyle: 'italic' }}>
+      <div style={{ textAlign: 'center', zIndex: 2, padding: '0 4px', margin: '2px 0' }}>
+        <p style={{ fontSize: '0.68rem', fontWeight: 600, color: '#475569', lineHeight: '1.3', fontStyle: 'italic', margin: 0 }}>
           "Una experiencia para conectar, aprender, transformar y actuar."
         </p>
       </div>
@@ -152,109 +147,108 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '4px',
+        gap: '3px',
         zIndex: 2,
-        margin: '6px 0',
-        padding: '6px 4px',
+        margin: '5px 0',
+        padding: '5px 4px',
         background: 'rgba(230, 240, 255, 0.5)',
-        borderRadius: '12px',
-        border: '1px solid rgba(0, 82, 204, 0.15)'
+        borderRadius: '10px',
+        border: '1px solid rgba(0, 82, 204, 0.12)'
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-          <Lightbulb size={14} color="#0052CC" style={{ marginBottom: '2px' }} />
-          <span style={{ fontSize: '0.55rem', fontWeight: 800, color: '#09172e', textTransform: 'uppercase' }}>Inspira</span>
-          <span style={{ fontSize: '0.5rem', color: '#0052CC', fontWeight: 600 }}>Tu mente</span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1px' }}>
+          <Lightbulb size={12} color="#0052CC" />
+          <span style={{ fontSize: '0.5rem', fontWeight: 800, color: '#09172e', textTransform: 'uppercase', lineHeight: 1 }}>Inspira</span>
+          <span style={{ fontSize: '0.45rem', color: '#0052CC', fontWeight: 600, lineHeight: 1 }}>Tu mente</span>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', borderLeft: '1px solid rgba(0, 82, 204, 0.15)' }}>
-          <Users size={14} color="#0052CC" style={{ marginBottom: '2px' }} />
-          <span style={{ fontSize: '0.55rem', fontWeight: 800, color: '#09172e', textTransform: 'uppercase' }}>Conecta</span>
-          <span style={{ fontSize: '0.5rem', color: '#0052CC', fontWeight: 600 }}>Con propósito</span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', borderLeft: '1px solid rgba(0, 82, 204, 0.12)', gap: '1px' }}>
+          <Users size={12} color="#0052CC" />
+          <span style={{ fontSize: '0.5rem', fontWeight: 800, color: '#09172e', textTransform: 'uppercase', lineHeight: 1 }}>Conecta</span>
+          <span style={{ fontSize: '0.45rem', color: '#0052CC', fontWeight: 600, lineHeight: 1 }}>Con propósito</span>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', borderLeft: '1px solid rgba(0, 82, 204, 0.15)' }}>
-          <Target size={14} color="#0052CC" style={{ marginBottom: '2px' }} />
-          <span style={{ fontSize: '0.55rem', fontWeight: 800, color: '#09172e', textTransform: 'uppercase' }}>Descubre</span>
-          <span style={{ fontSize: '0.5rem', color: '#0052CC', fontWeight: 600 }}>Tu rumbo</span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', borderLeft: '1px solid rgba(0, 82, 204, 0.12)', gap: '1px' }}>
+          <Target size={12} color="#0052CC" />
+          <span style={{ fontSize: '0.5rem', fontWeight: 800, color: '#09172e', textTransform: 'uppercase', lineHeight: 1 }}>Descubre</span>
+          <span style={{ fontSize: '0.45rem', color: '#0052CC', fontWeight: 600, lineHeight: 1 }}>Tu rumbo</span>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', borderLeft: '1px solid rgba(0, 82, 204, 0.15)' }}>
-          <Rocket size={14} color="#0052CC" style={{ marginBottom: '2px' }} />
-          <span style={{ fontSize: '0.55rem', fontWeight: 800, color: '#09172e', textTransform: 'uppercase' }}>Actúa</span>
-          <span style={{ fontSize: '0.5rem', color: '#0052CC', fontWeight: 600 }}>Y transforma</span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', borderLeft: '1px solid rgba(0, 82, 204, 0.12)', gap: '1px' }}>
+          <Rocket size={12} color="#0052CC" />
+          <span style={{ fontSize: '0.5rem', fontWeight: 800, color: '#09172e', textTransform: 'uppercase', lineHeight: 1 }}>Actúa</span>
+          <span style={{ fontSize: '0.45rem', color: '#0052CC', fontWeight: 600, lineHeight: 1 }}>Y transforma</span>
         </div>
       </div>
 
-      {/* --- EVENT DETAILS BOX (UPDATED VENUE LOCATION) --- */}
+      {/* --- EVENT DETAILS BOX --- */}
       <div style={{
         zIndex: 2,
         background: '#ffffff',
-        border: '2px solid #09172e',
-        borderRadius: '16px',
-        padding: '10px 12px',
+        border: '1.5px solid #09172e',
+        borderRadius: '13px',
+        padding: '7px 10px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
+        boxShadow: '0 3px 8px rgba(0,0,0,0.05)'
       }}>
         {/* Date */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: '1.1' }}>
-          <div style={{ background: '#e6f0ff', padding: '6px', borderRadius: '8px', color: '#0052CC' }}>
-            <Calendar size={16} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flex: '1.1' }}>
+          <div style={{ background: '#e6f0ff', padding: '5px', borderRadius: '7px', color: '#0052CC', flexShrink: 0 }}>
+            <Calendar size={13} />
           </div>
           <div>
-            <div style={{ fontSize: '0.55rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>FECHA</div>
-            <div style={{ fontSize: '0.75rem', color: '#09172e', fontWeight: 800 }}>3 de octubre</div>
+            <div style={{ fontSize: '0.48rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>FECHA</div>
+            <div style={{ fontSize: '0.65rem', color: '#09172e', fontWeight: 800, lineHeight: 1.1 }}>3 de octubre</div>
           </div>
         </div>
 
-        <div style={{ width: '1px', height: '26px', background: '#cbd5e1' }}></div>
+        <div style={{ width: '1px', height: '22px', background: '#e2e8f0', flexShrink: 0 }}></div>
 
         {/* Time */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: '0.9', justifyContent: 'center' }}>
-          <div style={{ background: '#e6f0ff', padding: '6px', borderRadius: '8px', color: '#0052CC' }}>
-            <Clock size={16} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flex: '0.85', justifyContent: 'center' }}>
+          <div style={{ background: '#e6f0ff', padding: '5px', borderRadius: '7px', color: '#0052CC', flexShrink: 0 }}>
+            <Clock size={13} />
           </div>
           <div>
-            <div style={{ fontSize: '0.55rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>HORA</div>
-            <div style={{ fontSize: '0.75rem', color: '#09172e', fontWeight: 800 }}>9:00 AM</div>
+            <div style={{ fontSize: '0.48rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>HORA</div>
+            <div style={{ fontSize: '0.65rem', color: '#09172e', fontWeight: 800, lineHeight: 1.1 }}>9:00 AM</div>
           </div>
         </div>
 
-        <div style={{ width: '1px', height: '26px', background: '#cbd5e1' }}></div>
+        <div style={{ width: '1px', height: '22px', background: '#e2e8f0', flexShrink: 0 }}></div>
 
-        {/* Location (Updated: Salón Los Pavorreales, Colonia Niños Héroes) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: '1.5', justifyContent: 'flex-end' }}>
-          <div style={{ background: '#e6f0ff', padding: '6px', borderRadius: '8px', color: '#0052CC' }}>
-            <MapPin size={16} />
+        {/* Location */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flex: '1.6', justifyContent: 'flex-end' }}>
+          <div style={{ background: '#e6f0ff', padding: '5px', borderRadius: '7px', color: '#0052CC', flexShrink: 0 }}>
+            <MapPin size={13} />
           </div>
           <div style={{ textAlign: 'left' }}>
-            <div style={{ fontSize: '0.55rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>LUGAR</div>
-            <div style={{ fontSize: '0.65rem', color: '#09172e', fontWeight: 800, lineHeight: '1.1' }}>
+            <div style={{ fontSize: '0.48rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>LUGAR</div>
+            <div style={{ fontSize: '0.58rem', color: '#09172e', fontWeight: 800, lineHeight: '1.1' }}>
               Salón Los Pavorreales
             </div>
-            <div style={{ fontSize: '0.55rem', color: '#0052CC', fontWeight: 700 }}>
-              Colonia Niños Héroes, Encarnación de Díaz
+            <div style={{ fontSize: '0.48rem', color: '#0052CC', fontWeight: 700, lineHeight: '1.15' }}>
+              Col. Niños Héroes, Encarnación de Díaz
             </div>
           </div>
         </div>
       </div>
 
-      {/* --- FOOTER: MOTTO & SOCIAL HANDLES --- */}
-      <div style={{ zIndex: 2, textAlign: 'center', marginTop: '4px' }}>
-        <div style={{ fontSize: '0.625rem', fontWeight: 800, color: '#0052CC', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+      {/* --- FOOTER --- */}
+      <div style={{ zIndex: 2, textAlign: 'center', marginTop: '5px' }}>
+        <div style={{ fontSize: '0.56rem', fontWeight: 800, color: '#0052CC', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
           ¡NO TE LO PIERDAS! JUNTOS PODEMOS MÁS.
         </div>
         <div style={{
           display: 'inline-flex',
           alignItems: 'center',
-          gap: '8px',
           background: '#09172e',
           color: '#ffffff',
           borderRadius: '9999px',
-          padding: '4px 14px',
-          marginTop: '4px',
-          fontSize: '0.625rem',
+          padding: '3px 12px',
+          marginTop: '3px',
+          fontSize: '0.56rem',
           fontWeight: 700
         }}>
           <span>@jovenesunidosac_</span>
