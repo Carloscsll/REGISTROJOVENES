@@ -27,6 +27,11 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ cardRef, userName,
       setIsExporting(true);
       setSuccessMessage(null);
 
+      // Ensure all web fonts (Outfit, Plus Jakarta Sans) are fully loaded & rendered before capturing
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+
       // Render image at 3x scale for crisp high definition social share
       const dataUrl = await toPng(cardRef.current, {
         cacheBust: true,
@@ -57,6 +62,10 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ cardRef, userName,
     try {
       setIsExporting(true);
       setSuccessMessage(null);
+
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
 
       const dataUrl = await toPng(cardRef.current, {
         cacheBust: true,

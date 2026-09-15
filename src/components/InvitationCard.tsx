@@ -6,13 +6,16 @@ interface InvitationCardProps {
 }
 
 export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({ name }, ref) => {
-  // Dynamic font scaling according to name length
+  // Dynamic font scaling according to full greeting length
   const getNameFontSize = (text: string) => {
-    const len = text.length;
-    if (len <= 12) return '1.45rem';
-    if (len <= 20) return '1.25rem';
-    if (len <= 28) return '1.1rem';
-    return '0.98rem';
+    const fullText = `¡HOLA, ${text}!`;
+    const len = fullText.length;
+    if (len <= 14) return '1.4rem';
+    if (len <= 20) return '1.2rem';
+    if (len <= 26) return '1.02rem';
+    if (len <= 34) return '0.88rem';
+    if (len <= 42) return '0.78rem';
+    return '0.7rem';
   };
 
   return (
@@ -49,7 +52,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
         <line x1="20" y1="100" x2="100" y2="20" stroke="#0052CC" strokeWidth="2" />
       </svg>
 
-      {/* --- HEADER: JÓVENES UNIDOS (WITHOUT LOGO SIMULATION) --- */}
+      {/* --- HEADER: JÓVENES UNIDOS --- */}
       <div style={{ textTransform: 'center', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ textAlign: 'center', textTransform: 'uppercase' }}>
           <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: '1.2rem', color: '#0052CC', letterSpacing: '0.06em', lineHeight: 1 }}>
@@ -66,7 +69,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
         </div>
       </div>
 
-      {/* --- MAIN TITLE: VITA (CRYSTAL CLEAR HIGH IMPACT BOLD TEXT) --- */}
+      {/* --- MAIN TITLE: VITA --- */}
       <div style={{ textAlign: 'center', zIndex: 2, margin: '2px 0' }}>
         <h1
           style={{
@@ -96,30 +99,30 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
         </div>
       </div>
 
-      {/* --- PERSONALIZED NAME BANNER --- */}
-      <div style={{ zIndex: 2, margin: '6px 0', textAlign: 'center' }}>
+      {/* --- PERSONALIZED NAME BANNER (NEVER CUT OFF) --- */}
+      <div style={{ zIndex: 2, margin: '6px 0', textAlign: 'center', width: '100%', display: 'flex', justifyContent: 'center' }}>
         <div style={{
           background: 'linear-gradient(135deg, #0052cc 0%, #0066ff 100%)',
           color: '#ffffff',
           borderRadius: '9999px',
-          padding: '8px 20px',
+          padding: '8px 22px',
           boxShadow: '0 8px 18px rgba(0, 82, 204, 0.3)',
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
-          maxWidth: '100%',
+          maxWidth: '96%',
           border: '2px solid rgba(255, 255, 255, 0.4)'
         }}>
           <span style={{
             fontFamily: "'Outfit', sans-serif",
             fontWeight: 800,
             fontSize: getNameFontSize(name),
-            letterSpacing: '0.04em',
+            letterSpacing: '0.03em',
             textTransform: 'uppercase',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            maxWidth: '340px'
+            textAlign: 'center',
+            lineHeight: 1.2,
+            wordBreak: 'break-word',
+            display: 'inline-block'
           }}>
             ¡HOLA, {name}!
           </span>
@@ -170,7 +173,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
         </div>
       </div>
 
-      {/* --- EVENT DETAILS BOX (UPDATED VENUE LOCATION) --- */}
+      {/* --- EVENT DETAILS BOX --- */}
       <div style={{
         zIndex: 2,
         background: '#ffffff',
@@ -208,7 +211,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
 
         <div style={{ width: '1px', height: '26px', background: '#cbd5e1' }}></div>
 
-        {/* Location (Updated: Salón Los Pavorreales, Colonia Niños Héroes) */}
+        {/* Location */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: '1.5', justifyContent: 'flex-end' }}>
           <div style={{ background: '#e6f0ff', padding: '6px', borderRadius: '8px', color: '#0052CC' }}>
             <MapPin size={16} />
