@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Download, Camera, RefreshCw, Check } from 'lucide-react';
-import { toPng } from 'html-to-image';
+import { toBlob, toPng } from 'html-to-image';
 
 interface ActionButtonsProps {
   cardRef: React.RefObject<HTMLDivElement | null>;
@@ -21,32 +21,112 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ cardRef, userName,
     return `invitacion_vita_${cleanName}.png`;
   };
 
+  const generateBlob = async (): Promise<Blob> => {
+    if (!cardRef.current) throw new Error("Tarjeta no encontrada");
+    
+    // First try toBlob directly
+    try {
+      const blob = await toBlob(cardRef.current, {
+        cacheBust: true,
+        pixelRatio: 3,
+        backgroundColor: '#ffffff'
+      });
+      if (blob) return blob;
+    } catch (e) {
+      console.warn("toBlob failed, falling back to toPng", e);
+    }
+
+    // Fallback: toPng -> fetch -> blob
+    const dataUrl = await toPng(cardRef.current, {
+      cacheBust: true,
+      pixelRatio: 3,
+      backgroundColor: '#ffffff'
+    });
+    const res = await fetch(dataUrl);
+    return await res.blob();
+  };
+
   const handleDownload = async () => {
     if (!cardRef.current || isExporting) return;
     try {
       setIsExporting(true);
       setSuccessMessage(null);
 
-      // Render image at 3x scale for crisp high definition social share
-      const dataUrl = await toPng(cardRef.current, {
-        cacheBust: true,
-        pixelRatio: 3,
-        style: {
-          margin: '0',
-          transform: 'none',
-        }
-      });
+      const blob = await generateBlob();
+      const fileName = getCleanFileName();
+      const file = new File([blob], fileName, { type: 'image/png' });
 
+      // Native Web Share API on mobile (iOS Safari / Android Chrome)
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: `Invitación VITA - ${userName}`,
+            text: `¡Mi invitación oficial para el encuentro VITA Jóvenes Unidos!`
+          });
+          setSuccessMessage('¡Invitación lista para compartir!');
+          setTimeout(() => setSuccessMessage(null), 4000);
+          return;
+        } catch (shareErr: any) {
+          if (shareErr.name === 'AbortError') {
+            return;
+          }
+          console.log('Share dismissed or failed, proceeding with direct download', shareErr);
+        }
+      }
+
+      // Universal Object URL download
+      const objectUrl = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.download = getCleanFileName();
-      link.href = dataUrl;
+      link.href = objectUrl;
+      link.download = fileName;
+      link.style.display = 'none';
+      document.body.appendChild(link);
       link.click();
+
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(objectUrl);
+      }, 1500);
 
       setSuccessMessage('¡Invitación descargada con éxito!');
       setTimeout(() => setSuccessMessage(null), 4000);
     } catch (err) {
       console.error('Error al descargar invitación:', err);
-      alert('Hubo un inconveniente al generar la imagen. Intenta tomar una captura o vuelve a intentarlo.');
+      
+      // Secondary fallback: open high-res image in new window/tab for manual saving
+      try {
+        const dataUrl = await toPng(cardRef.current, { cacheBust: true, pixelRatio: 2.5, backgroundColor: '#ffffff' });
+        const imgWindow = window.open('');
+        if (imgWindow) {
+          imgWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <title>Invitación VITA - ${userName}</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>
+                  body { margin: 0; background: #050d1a; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: sans-serif; color: white; text-align: center; padding: 20px; box-sizing: border-box; }
+                  img { max-width: 100%; max-height: 80vh; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+                  p { margin-top: 15px; font-size: 14px; color: #94a3b8; }
+                </style>
+              </head>
+              <body>
+                <img src="${dataUrl}" alt="Invitación VITA" />
+                <p>Mantén presionada la imagen o haz clic derecho para <strong>Guardar imagen</strong></p>
+              </body>
+            </html>
+          `);
+          imgWindow.document.close();
+          setSuccessMessage('¡Imagen abierta! Mantén presionada para guardar.');
+          setTimeout(() => setSuccessMessage(null), 5000);
+          return;
+        }
+      } catch (fallbackErr) {
+        console.error('Fallback image window failed', fallbackErr);
+      }
+
+      alert('Hubo un inconveniente al descargar. Prueba usando el botón "Tomar captura".');
     } finally {
       setIsExporting(false);
     }
@@ -58,33 +138,36 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ cardRef, userName,
       setIsExporting(true);
       setSuccessMessage(null);
 
-      const dataUrl = await toPng(cardRef.current, {
-        cacheBust: true,
-        pixelRatio: 3,
-      });
+      const blob = await generateBlob();
+      const fileName = `captura_${getCleanFileName()}`;
 
       // Try copying to clipboard if supported
-      try {
-        const response = await fetch(dataUrl);
-        const blob = await response.blob();
-        if (navigator.clipboard && window.ClipboardItem) {
+      if (navigator.clipboard && window.ClipboardItem) {
+        try {
           await navigator.clipboard.write([
-            new ClipboardItem({ [blob.type]: blob })
+            new ClipboardItem({ 'image/png': blob })
           ]);
-          setSuccessMessage('¡Captura copiada al portapapeles!');
+          setSuccessMessage('¡Copiada al portapapeles!');
           setTimeout(() => setSuccessMessage(null), 4000);
-          setIsExporting(false);
           return;
+        } catch (clipboardErr) {
+          console.log('Clipboard copy not supported/permitted, falling back to direct save', clipboardErr);
         }
-      } catch (clipboardErr) {
-        console.log('Clipboard copy fallback to file save', clipboardErr);
       }
 
-      // Fallback: save high-res capture PNG
+      // Fallback: Direct Blob download
+      const objectUrl = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.download = `captura_${getCleanFileName()}`;
-      link.href = dataUrl;
+      link.href = objectUrl;
+      link.download = fileName;
+      link.style.display = 'none';
+      document.body.appendChild(link);
       link.click();
+
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(objectUrl);
+      }, 1500);
 
       setSuccessMessage('¡Captura guardada en tu dispositivo!');
       setTimeout(() => setSuccessMessage(null), 4000);
@@ -106,7 +189,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ cardRef, userName,
           className="btn-download-primary"
         >
           <Download size={18} />
-          <span>Descargar invitación</span>
+          <span>{isExporting ? 'Generando...' : 'Descargar invitación'}</span>
         </button>
 
         <button
