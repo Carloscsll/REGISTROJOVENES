@@ -88,7 +88,6 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             textTransform: 'uppercase',
-            filter: 'drop-shadow(0 1px 3px rgba(0, 82, 204, 0.12))'
           }}
         >
           VITA
@@ -111,7 +110,6 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(({
           color: '#ffffff',
           borderRadius: '9999px',
           padding: '6px 16px',
-          boxShadow: '0 5px 14px rgba(0, 82, 204, 0.28)',
           display: 'block',
           width: '100%',
           border: '2px solid rgba(255, 255, 255, 0.35)'
